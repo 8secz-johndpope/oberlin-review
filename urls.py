@@ -15,11 +15,11 @@ urlpatterns = patterns('review.views',
 	url(r'^blogs/$','blogs'),
 	url(r'^gallery/(?P<slug>[\w-]+)/$', 'gallery', name="gallery"),
 	url(r'^gallery/(?P<slug>[\w-]+)\.slideshow$', 'jsongallery', name="gallery"),
-	
+
 	url(r'^thisweek/$', 'thisweek_list', name="review-thisweek"),
 	url(r'^thisweek/feed/$', ThisWeekFeed(), name="review-thisweek-feed"),
 	url(r'^thisweek/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<day>[0-9]{1,2})/$', 'thisweek_single', name="review-thisweek-single"),
-	
+
         url(r'^admin/', include(admin.site.urls)),
 # Added by luke to fix comments
 	url(r'comments/', include('django.contrib.comments.urls')),
@@ -28,6 +28,10 @@ urlpatterns = patterns('review.views',
 ) + patterns('django.views.generic',
 	url(r'blogs/tumblr_embed[/?]$', 'simple.direct_to_template', {'template': 'miscellanea/tumblr.html'}),
 	url(r'favicon\.ico$', 'simple.redirect_to', {'url': 'http://static.oberlinreview.org/favicon.ico'}),
-) + patterns('', 
+) + patterns('',
 	url(r'^grappelli/', include('grappelli.urls')),
+)
+
+urlpatterns += patterns('',
+    url(r'^captcha/', include('captcha.urls')),
 )

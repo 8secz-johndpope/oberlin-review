@@ -126,6 +126,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 INSTALLED_APPS = (
+        'captcha',
 	'grappelli',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
