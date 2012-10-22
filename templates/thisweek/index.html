@@ -1,0 +1,24 @@
+{% extends "review_generic.html" %}
+{% load scribd_tags %}
+
+{% block bodyclasses %}thisweek{% endblock %}
+
+{% block content %}
+<div class="article thisweek" id="individual">
+	{% if thisweeks.0 %}
+		{% with thisweeks.0 as week %}
+			<h1 class="headline">This Week: <a href="{% url review-thisweek-single year=week.start_date.year month=week.start_date.month day=week.start_date.day %}">{% include "thisweek/_date_range.html" %}</a></h1>
+			{% scribd_embed week.pdf %}
+		{% endwith %}
+		{% for week in thisweeks|slice:"1:" %}
+		<hr />
+		<h1>Past Weeks</h1>
+		<ul>
+			<li><a href="{% url review-thisweek-single year=week.start_date.year month=week.start_date.month day=week.start_date.day %}">{{ week }}</li>
+		</ul>
+		{% endfor %}
+	{% else %}
+		<div class="message warning">No &ldquo;This Week&rdquo; images posted yet.</div>
+	{% endif %}
+</div>
+{% endblock %}

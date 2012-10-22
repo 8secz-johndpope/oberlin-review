@@ -1,0 +1,21 @@
+{% spaceless %}
+{% load thumbnail %}
+{% load markup %}
+{% load markup_extras %}
+{
+		"title":"{{ gallery.title|title|addslashes }}",
+		"description":"{{ gallery.description|markdown }}",
+		"images":
+		[
+			{% for image in galleryimages %}
+			{
+				{% if image.title or image.image.title %}"title":"{% firstof image.title image.image.title %}",
+				{% endif %}{% if image.caption or image.image.caption %}"caption":"{% firstof image.caption image.image.caption %}",
+				{% endif %}{% if image.image.credit %}"credit":"{{image.image.credit|addslashes}}",
+				{% endif %}"thumb":"{% thumbnail image.image.image 72x72 crop as im %}{{ im.url }}{% endthumbnail %}",
+				"full":"{% thumbnail image.image.image 636x800 as im %}{{ im.url }}{% endthumbnail %}"
+			}{% if not forloop.last %},{% endif %}
+			{% endfor %}
+		]
+}
+{% endspaceless %}

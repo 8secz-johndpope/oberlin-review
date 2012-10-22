@@ -1,0 +1,142 @@
+{% load ad_includes %}
+
+<!DOCTYPE html> 
+ 
+<html> 
+	<head> 
+		<title>{% block title %}The Oberlin Review{% endblock %}</title> 
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		{% block meta %}
+		{% endblock %}
+		{% block default_styles %}
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css?v=1" type="text/css" media="screen" /> 
+		{% endblock %}
+		{% block extra_styles %}
+		{% endblock %}
+		{% block default_scripts %}
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="{{ STATIC_URL }}behavior/showdown.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="{{ STATIC_URL }}behavior/masonry.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="{{ STATIC_URL }}behavior/global.js?v=1" type="text/javascript" charset="utf-8"></script> 
+		{% endblock %}
+		{% block extra_scripts %}
+		{% endblock %}
+	</head> 
+	<body class="{% block bodyclasses %}home{% endblock %}"> 
+		{% block top_ad %}
+		<div id="topAd">
+			<h1>Advertising</h1>
+			{% get_ads "leaderboard" %}
+		</div>
+		{% endblock %}
+		<div id="all"> 
+			
+			<div id="section-nav"> 
+				<ul> 
+					<li><a href="/section/news/">News</a></li> 
+					<li><a href="/section/opinions/">Opinions</a></li> 
+					<li><a href="/section/arts/">Arts</a></li> 
+					<li><a href="/section/sports/">Sports</a></li> 
+					<li class="drop">
+						<a href="/blogs/">Blogs</a>
+						<ul>
+						{% for blog in blogs %}
+							<li><a href="{{blog.url}}">{{blog.title}}</a></li>
+						{% endfor %}
+						</ul>
+					</li>
+					<li class="drop">
+						<a href="#">More</a>
+						<ul>
+							<li><a href="{% url review-thisweek %}">This Week</a></li>
+							<li><a href="http://panoply.blogs.oberlinreview.org/">Panoply Press</a></li>
+						</ul>
+					</li>
+				</ul> 
+				<i class="clear">&nbsp;</i> 
+			</div><!-- /#sections --> 
+			
+			<div id="masthead">
+				{% url review.views.index as home_url %}
+				<h1 id="nameplate"><a href="{{home_url}}">The Oberlin Review</a></h1> 
+				<div id="datq"> 
+					<div id="dat"> 
+						{% now "l, F jS, Y" %}
+					</div><!-- /#dat --> 
+					<div id="est"> 
+						Established 1874
+					</div> 
+					<div id="search"> 
+						<form action="{% url search %}" method="get"> 
+							<span><input type="search" name="q" id="q" /></span>
+						</form> 
+					</div><!-- /#search --> 
+				</div><!-- /#volnumq --> 
+			</div><!-- /#masthead --> 
+			<div id="content"> 
+			{% block content %}
+				{% block main %}
+				<div id="sheet">
+						Hello
+				</div><!-- /#sheet --> 
+				{% endblock %}
+				<div id="sidebar"> 
+					<div id="secondaries" class="sideMod">
+						<ul>
+							<li><a href="/about/">About the <cite>Review</cite></a></li>
+							<li><a href="/advertising/">Advertise with us</a></li>
+							<li><a href="/submissions/">Content Submission</a></li>
+							<li><a href="/online-policy/">Online Policy</a></li>
+							<li><a href="/contact/">Contact</a></li>
+						</ul>
+					</div>
+					{% block sidebar %}
+					<!-- div id="twitter" class="sideMod"> 
+						<h1>From Twitter</h1> 
+						<p><span class="loading" style="color:#888">Loading...</span></p> 
+					</div --><!-- /#twitter -->	
+					{% block sidebar_inner %}
+					{% endblock %}
+					{% block side_ads %}
+					<div id="side_ads" class="sideMod"> 
+						<h1>Advertising</h1>
+						<div id="sideAds">
+							{% get_ads "sidebar" 3 %}
+						</div>
+					</div>
+					{% endblock %}
+					{% endblock %}
+				</div><!-- /#sidebar --> 	
+				
+ 
+				<i class="clear">&nbsp;</i> 
+			{% endblock %}
+			</div><!-- /#content --> 
+			<i class="clear">&nbsp;</i> 
+			<div id="footer"> 
+				<p class="copyright"> 
+					&copy; Copyright Oberlin Review 1996 &ndash; {% now "Y" %}.<br /> 
+					All rights reserved.
+				</p> 
+				<p class="map"> 
+					<a href="/section/news/">News</a> | <a href="/section/opinions/">Opinions</a> | <a href="/section/arts/">Arts</a> | <a href="/section/sports/">Sports</a><br /> 
+					<a href="/about/">About Us</a> | <a href="/advertising/">Advertising</a> | <a href="/submissions/">Content Submission</a> | <a href="/online-policy/">Online Policy</a> | <a href="/contact/">Contact</a> 
+				</p> 
+			</div> 
+		</div><!-- /#all -->
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-18352317-1']);
+		  _gaq.push(['_setDomainName', '.oberlinreview.org']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body> 
+</html>

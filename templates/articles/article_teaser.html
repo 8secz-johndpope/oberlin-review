@@ -1,0 +1,10 @@
+{% load markup %}
+{% load markup_extras %}
+
+<h1 class="headline"><a href="{% url review.views.single article_slug=article.slug %}" rel="bookmark" title="Permanent Link to {{ article.title }}">{{ article.title|title|safe }}</a></h1> 
+<p class="byline">by {% for author in article.authors.all %}{% if forloop.last and not forloop.first %}and{% endif %} <span class="author"><a href="{% url review.views.author author.id %}">{{author.first_name}} {{author.last_name}}</a></span>{% if not forloop.last and forloop.revcounter > 2 %}, {% endif %} {% endfor %}</p>
+<p class="dateline">{{ article.web_date|date }}</p> 
+<div class="text"> 
+	{{ article.summary|markdown }}
+</div>
+<p class="read"><a href="{% url review.views.single article_slug=article.slug %}">Read more &#187;</a></p>

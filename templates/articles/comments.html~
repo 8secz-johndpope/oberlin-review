@@ -1,0 +1,47 @@
+{% extends "review_generic.html" %}
+
+{% load markup %}
+{% load markup_extras %}
+{% load comments %}
+
+{% block title %} Comments on {{article.title}} {% endblock %}
+
+{% block bodyclasses %}commentsPage{% endblock %}
+
+{% block main %}
+<div class="article" id="individual">
+	<h1 class="headline"><span class="eyebrow">reader comments on</span> <a href="{% url review.views.single article.slug %}">{{ article.title|title|safe }}</a></h1>
+	<p class="byline">by {% for author in article.authors.all %}{% if forloop.last and not forloop.first %}and{% endif %} <span class="author"><a href="/authors/{{author.id}}">{{author.first_name}} {{author.last_name}}</a></span>{% if not forloop.last and forloop.revcounter > 2 %}, {% endif %} {% endfor %}</p>
+	<p class="dateline">{{article.web_date|date}}</p>
+	<!-- div class="commentcount">
+		{% get_comment_count for article as comment_count %}
+		{{ comment_count }} Comments
+	</div -->
+	<div id="comments">
+		
+		{% get_comment_list for article as comments %}
+		{% for comment in comments %}
+		<div class="comment">
+			{{ comment.comment|markdown }}
+			<p class="userline">&#8212; {% if comment.user_url %}<a href="{{ comment.user_url }}" ref="nofollow">{{ comment.user_name }}</a>{% else %}<b>{{ comment.user_name }}</b>{% endif %}</p>
+		</div>
+		{% endfor %}
+		<i class="clear">&nbsp;</i>
+	</div>
+
+	{% get_comment_form for article as form %}
+	
+	<form action="{% comment_form_target %}" id="commentform" method="post">
+		{% csrf_token %}
+		<table>
+		{{ form.as_table }}
+		<tr>
+			<td>&nbsp;</td>
+			<td><input type="submit" value="Publish Comment" /></td>
+		</tr>
+		</table>
+		<input type="hidden" name="next" value="{{ request.path }}" /> 
+	</form>
+	
+</div>
+{% endblock %}

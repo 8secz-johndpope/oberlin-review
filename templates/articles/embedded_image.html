@@ -1,0 +1,17 @@
+{% load thumbnail %}{% load markup %}{% load markup_extras %}{% spaceless %}
+<div class="photo">
+	<p class="image">
+		{% thumbnail image.image "1000x2000" as large %}
+			{% thumbnail image.image "300x1000" as small %}
+				<a href="{{ large.url }}" class="imglink">
+					<img src="{{ small.url }}" />
+				</a>
+			{% endthumbnail %}
+		{% endthumbnail %}
+	</p>
+	{% if image.credit %}
+		<p class="byline">{{image.credit}}</p> 
+	{% endif %}
+	{% if image.title %}<p class="headline">{{image.title|title}}</p> {% endif %}<p>{{image.caption|markdown}}</p>
+</div>
+{% endspaceless %}

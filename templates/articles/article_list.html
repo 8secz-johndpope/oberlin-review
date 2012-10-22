@@ -1,0 +1,9 @@
+<ul class="articleList">
+	{% for article in articles %}
+	<li class="article">
+		{% with article as article %}
+		{% include "articles/article_teaser.html" %}
+		{% endwith %}
+	</li>
+	{% endfor %}
+</ul>

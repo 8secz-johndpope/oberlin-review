@@ -1,0 +1,16 @@
+{% extends "review_generic.html" %}
+
+{% load markup %}
+
+{% block title %} {{flatpage.title}} {% endblock %}
+
+{% block bodyclasses %}single static{% endblock %}
+
+{% block main %}
+<div class="article" id="individual">
+	<h1>{{ flatpage.title|markdown }}</h1>
+	<div class="text">
+		{{ flatpage.content|markdown }}
+	</div>
+</div>
+{% endblock %}

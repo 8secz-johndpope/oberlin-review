@@ -1,0 +1,10 @@
+# RewriteEngine on
+
+# Use PHP5 Single php.ini as default
+# AddHandler application/x-httpd-php5s .php
+# 
+# RewriteCond %{HTTP_HOST} ^static.oberlinreview.org$
+# RewriteRule ^/?$ "http\:\/\/www\.oberlinreview\.org\/" [R=302,L]
+# 
+# ErrorDocument 404 http://oberlinreview.org/
+

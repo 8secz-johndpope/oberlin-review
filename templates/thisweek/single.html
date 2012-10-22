@@ -1,0 +1,11 @@
+{% extends "review_generic.html" %}
+{% load scribd_tags %}
+
+{% block bodyclasses %}thisweek{% endblock %}
+
+{% block content %}
+	<div class="article thisweek" id="individual">
+		<h1>This Week {% include "thisweek/_date_range.html" %}</h1>
+		{% scribd_embed week.pdf %}
+	</div>
+{% endblock %}

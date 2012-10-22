@@ -1,0 +1,58 @@
+{% extends "review_generic.html" %}
+
+{% load thumbnail %}
+{% load markup %}
+{% load markup_extras %}
+
+{% block bodyclasses %}gallery{% endblock %}
+
+{% block main %}
+<div class="article gallery" id="individual">
+	<h1 class="headline">{{ gallery.title|title }}</h1>
+	<div class="stage photo">
+	{% with galleryimages.0 as image %}
+		{% thumbnail image.image.image "636x800" as image %}
+			<img src="{{ image.url }}" />
+		{% endthumbnail %}
+		{% if image.image.credit %}
+		<p class="byline">{{image.image.credit}}</p> 
+		{% endif %}
+		{% if image.title or image.image.title %}
+		<p class="headline">{% firstof image.title image.image.title %}</p>
+		{% endif %}
+		{% if image.caption or image.image.caption %}
+		<div class="caption">
+			{% firstof image.caption image.image.caption %}
+		</div>
+		{% endif %}
+	{% endwith %}
+	</div>
+	<ul class="wings">
+	{% for image in galleryimages %}
+		<li>
+			{% thumbnail image.image.image "636x800" as image_link %}
+				{% thumbnail image.image.image "72x72" crop="center" as image_thumb %}
+					<a href="{{ image_link.url }}">
+						<img src="{{ image_thumb.url }}" />
+						{% if image.image.credit %}
+						<span class="byline">{{image.image.credit}}</span> 
+						{% endif %}
+						{% if image.title or image.image.title %}
+						<span class="headline">{% firstof image.title image.image.title %}</span>
+						{% endif %}
+						{% if image.caption or image.image.caption %}
+						<span class="caption">
+							{% firstof image.caption image.image.caption %}
+						</span>
+						{% endif %}
+					</a>
+				{% endthumbnail %}
+			{% endthumbnail %}
+		</li>
+	{% endfor %}
+	</ul>
+	<div class="description">
+	{{ gallery.description|markdown }}
+	</div>
+</div>
+{% endblock %}

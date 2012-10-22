@@ -1,0 +1,38 @@
+{% extends "review_generic.html" %}
+
+{% load markup %}
+{% load markup_extras %}
+{% load comments %}
+
+{% block title %} {{article.title|markdown|striptags}} {% endblock %}
+
+{% block bodyclasses %}single{% endblock %}
+
+{% block main %}
+<div class="article" id="individual">
+	{% if not article.is_published %}
+	<div class="message warning">
+		<p>
+			<b>Note:</b> This article is not currently published. You are able to preview it because you are logged in as {% if user.first_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}.
+			{% if article.published %}This article is scheduled to be published on {{ article.web_date|date }} at {{ article.web_date|time }}{% endif %}
+		</p>
+	</div>
+	{% endif %}
+	<h1>{{ article.title|title|safe }}</h1>
+	<p class="byline">by {% for author in article.authors.all %}{% if forloop.last and not forloop.first %}and{% endif %} <span class="author"><a href="{% url review.views.author author.id %}">{{author.first_name}} {{author.last_name}}</a></span>{% if not forloop.last and forloop.revcounter > 2 %}, {% endif %} {% endfor %}</p>
+	<p class="dateline">{{article.web_date|date}}</p>
+	<div class="text">
+		{% filter markdown %}{{ article.full_text|formatimages|safe }}{% endfilter %}
+	</div>
+	<div class="articleActions">
+		<ul>
+		{% get_comment_count for article as comment_count %}
+			<li><a href="{% url review.views.comments article_slug=article.slug %}">Comments ({{ comment_count }})</a></li>
+			<li><a href="http://reddit.com/r/oberlin/submit" onclick="window.location = 'http://reddit.com/r/oberlin/submit?url=' + encodeURIComponent(window.location); return false"> <img src="http://reddit.com/static/spreddit5.gif" alt="submit to reddit" border="0" /> submit</a></li>
+			<li><a name="fb_share" type="button" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script></li>
+			<li><a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="oberlinreview">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></li>
+		</ul>
+		<i class="clear">&nbsp;</i>
+	</div>
+</div>
+{% endblock %}

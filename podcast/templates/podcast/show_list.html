@@ -1,0 +1,29 @@
+{% extends "podcast/base.html" %}
+
+
+{% block header %}
+Django Podcast Show List
+{% endblock %}
+
+
+{% block content %}
+
+{% for object in object_list %}
+
+<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+
+<h3>{{ object.organization }}</h3>
+
+{% if object.image %}
+<div class="image"><a href="{{ object.get_absolute_url }}"><img src="{{ object.image.url }}" width="{{ object.image.width }}" height="{{ object.image.height }}" alt="{{ object.organization }} {{ object.organization|striptags }}'s logo" /></a></div>
+{% endif %}
+
+<p>{% if object.summary %}{{ object.summary }}{% else %}{{ object.description|striptags }}{% endif %}</p>
+{% endfor %}
+
+{% endblock %}
+
+
+{% block footer %}
+&#169; {% now "Y" %}.
+{% endblock %}

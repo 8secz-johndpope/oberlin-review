@@ -1,0 +1,138 @@
+{% extends "review_generic.html" %}
+
+{% load markup %}
+{% load markup_extras %}
+{% load ad_includes %}
+
+{% block title %}The Oberlin Review &#187; {% now "l, F jS, Y" %}{% endblock %}
+
+{% block meta %}
+<link href="/feed/" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
+{% endblock %}
+
+{% block bodyclasses %}front{% endblock %}
+
+{% block top_ad %}{# blank out the top ad #}{% endblock %}
+
+{% block main %}
+
+<div id="sheet"> 
+	<div id="abovefold"> 
+		<div id="first"> 
+			{% if front_page.story1 %}
+			<div class="article" id="lede">
+				{% with front_page.story1 as article %}
+				{% include "articles/article_teaser.html" %}
+				{% endwith %}
+			</div><!-- /.article -->
+			{% endif %}
+			{% if front_page.story2 %}
+			<div class="article">
+				{% with front_page.story2 as article %}
+				{% include "articles/article_teaser.html" %}
+				{% endwith %}
+			</div><!-- /.article -->
+			{% endif %}
+		</div><!-- /#lede --> 
+		<div id="second"> 
+			
+			{% with front_page.media1_content_object as content_object %}
+			{% with front_page.media1_content_type.name as content_type %}
+				{% include "media/front_embed_media.html" %}
+			{% endwith %}
+			{% endwith %}
+			
+			{% if front_page.story3 %}
+			<div class="article">
+				{% with front_page.story3 as article %}
+				{% include "articles/article_teaser.html" %}
+				{% endwith %}
+			</div><!-- /.article --> 
+			{% endif %}
+			
+			{% with front_page.media2_content_object as content_object %}
+			{% with front_page.media2_content_type.name as content_type %}
+				{% include "media/front_embed_media.html" %}
+			{% endwith %}
+			{% endwith %}
+			
+		</div><!-- /#second --> 
+		
+		<i class="clear">&nbsp;</i> 
+	</div><!-- /#abovefold --> 
+	<div id="teases"> 
+		{% if front_page.teaser1 %}
+		<div class="tease article first">
+			{% with front_page.teaser1 as article %}
+			{% include "articles/article_teaser.html" %}
+			{% endwith %}
+		</div><!-- /.tease -->  
+		{% endif %}                     
+		{% if front_page.teaser2 %}                                                                                      
+		<div class="tease article second"> 
+			{% with front_page.teaser2 as article %}
+			{% include "articles/article_teaser.html" %}
+			{% endwith %}
+		</div><!-- /.tease -->                                                                                                             
+		{% endif %}                     
+		{% if front_page.teaser3 %}                                                                                      
+		<div class="tease article third"> 
+			{% with front_page.teaser3 as article %}
+			{% include "articles/article_teaser.html" %}
+			{% endwith %}
+		</div><!-- /.tease -->                                                                                                             
+		{% endif %}                     
+		{% if front_page.teaser4 %}                                                                                      
+		<div class="tease article last">
+			{% with front_page.teaser4 as article %}
+			{% include "articles/article_teaser.html" %}
+			{% endwith %}
+		</div><!-- /.tease --> 
+		{% endif %}
+		<i class="clear">&nbsp;</i>
+	</div><!-- /#teases --> 
+	<div id="toc"> 
+		<div id="nc"> 
+			<div class="section first"> 
+				<h1>News</h1> 
+				<ul class="headlines"> 
+					{% for article in articles.news %}
+					<li><a href="{% url review.views.single article.slug %}">{{article.title|title|safe}}</a></li> 
+					{% endfor %}
+				</ul> 
+			</div><!-- /.section --> 
+			<div class="section second"> 
+				<h1>Opinions</h1> 
+				<ul class="headlines"> 
+					{% for article in articles.opinions %}
+					<li><a href="{% url review.views.single article.slug %}">{{article.title|title|safe}}</a></li> 
+					{% endfor %}
+				</ul> 
+			</div><!-- /.section --> 
+		</div><!-- /#nc --> 
+		<div id="as"> 
+			<div class="section third"> 
+				<h1>Arts</h1> 
+				<ul class="headlines"> 
+					{% for article in articles.arts %}
+					<li><a href="{% url review.views.single article.slug %}">{{article.title|title|safe}}</a></li> 
+					{% endfor %}
+				</ul> 
+			</div><!-- /.section --> 
+			<div class="section last"> 
+				<h1>Sports</h1> 
+				<ul class="headlines"> 
+					{% for article in articles.sports %}
+					<li><a href="{% url review.views.single article.slug %}">{{article.title|title|safe}}</a></li> 
+					{% endfor %}
+				</ul> 
+			</div><!-- /.section --> 
+		</div><!-- /#as -->
+		<div id="midAd">
+			<h1>Advertising</h1>
+			{% get_ads "leaderboard" %}
+		</div>
+	</div>
+	<i class="clear">&nbsp;</i> 
+</div><!-- /#sheet -->
+{% endblock %}
